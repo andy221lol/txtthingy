@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader and Text Editor</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        textarea {
+            width: 90%;
+            height: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button, input[type="file"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Style the file input to look like a button */
+        input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+        .file-upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #28a745; /* Green for "Upload" */
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .file-upload-label:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>File Uploader and Text Editor</h1>
+        
+        <textarea id="textInput" placeholder="Enter text here or upload a file..."></textarea>
+        
+        <label for="fileInput" class="file-upload-label">Upload a Text File</label>
+        <input type="file" id="fileInput" accept=".txt,.log,.js,.html,.css">
+        
+        <button id="saveButton">Save as Text File</button>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const textInput = document.getElementById('textInput');
+        const saveButton = document.getElementById('saveButton');
+
+        // Event listener for the file input
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    textInput.value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Event listener for the save button (from the previous code)
+        saveButton.addEventListener('click', function() {
+            const textContent = textInput.value;
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'my_edited_file.txt'; 
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        });
+    </script>
+
+</body>
+</html>
