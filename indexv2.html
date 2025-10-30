@@ -72,7 +72,7 @@
         <textarea id="textInput" placeholder="Enter text here or upload a file..."></textarea>
         
         <label for="fileInput" class="file-upload-label">Upload a Text File</label>
-        <input type="file" id="fileInput" accept=".txt,.log,.js,.html,.css">
+        <input type="file" id="fileInput">
         
         <button id="saveButton">Save as Text File</button>
     </div>
@@ -101,7 +101,7 @@
             const blob = new Blob([textContent], { type: 'text/plain' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'my_edited_file.txt'; 
+            a.download = 'awesome.txt'; 
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
